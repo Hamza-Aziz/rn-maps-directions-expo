@@ -5,7 +5,6 @@ import decorateMapComponent, {
   USES_DEFAULT_IMPLEMENTATION,
   SUPPORTED
 } from "./decorateMapComponent";
-import { Polyline } from "react-native-maps";
 
 // if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
 const viewPropTypes = ViewPropTypes || View.propTypes;
