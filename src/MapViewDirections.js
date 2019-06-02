@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Polyline } from "../../expo/node_modules/react-native-maps";
+import { Polyline } from "./Polyline/polyline";
 import isEqual from "lodash.isequal";
 
 class MapViewDirections extends Component {
