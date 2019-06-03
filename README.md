@@ -1,3 +1,26 @@
+# Compatible with Expo
+
+This version of `react-native-maps-directions` has been modified to be directly compatible with Expo by removing the dependency
+for `react-native-maps`. The original package can be found here: https://github.com/bramus/react-native-maps-directions
+and uses the `Polyline` component from `react-native-maps`.
+
+The modification in _my_ package removes this dependency by adding `Polyline` as a component in this package. You can use
+`MapView` from Expo like along with this package like this:
+
+```js
+import { MapView } from "expo";
+import MapViewDirections from "react-native-maps-directions";
+```
+
+This package is 100% compatible with both Expo and base React Native projects.
+
+Expo's implementation of `react-native-maps` is currently broken (as of v32.x) for TypeScript users due to the method of
+exporting types in the `react-native-maps v0.22.x` dependency in that version. If you wish to fix that, too, simply copy
+the content of their `index.d.ts` on v0.24 and replace the contents of `node_modules/expo/node_modules/react-native-maps/index.d.ts`.
+
+Alternatively, delete that file instead and use `npm install --save-dev @types/react-native-maps` as I've fixed it there,
+too.
+
 # `react-native-maps-directions`
 
 [![npm version](https://img.shields.io/npm/v/react-native-maps-directions.svg?style=flat)](https://www.npmjs.com/package/react-native-maps-directions)
@@ -56,18 +79,18 @@ Once the directions in between `destination` and `origin` has been fetched, a `M
 
 ### Props
 
-| Prop | Type | Default | Note
-|---|---|---|---|
-| `origin` | `LatLng` or `String` | | The origin location to start routing from.
-| `destination` | `LatLng` or `String` | | The destination location to start routing to.
-| `apikey` | `String` | | Your Google Maps API Key _(request one [here](https://developers.google.com/maps/documentation/directions/get-api-key); if you're using an existing Google Maps API Key make sure you've enabled the Google Maps Directions API for that key using the [Google API Console](https://console.developers.google.com/apis/) by hitting the “Enable APIs and Services“ button)_.
-| `waypoints` | [`LatLng` or `String`] |  | Array of waypoints to use between origin and destination.
-| `language` | `String` | `"en"` | The language to use when calculating directions. See [here](https://developers.google.com/maps/documentation/javascript/localization) for more info.
-| `mode` | `String` | `"DRIVING"` | Which transportation mode to use when calculating directions. Allowed values are `"DRIVING"`, `"BICYCLING"`, `"WALKING"`, and `"TRANSIT"`. _(See [here](https://developers.google.com/maps/documentation/javascript/examples/directions-travel-modes) for more info)_.
-| `resetOnChange` | `boolean` | `true` | Tweak if the rendered `MapView.Polyline` should reset or not when calculating the route between `origin` and `destionation`. Set to `false` if you see the directions line glitching.
-| `optimizeWaypoints` | `boolean` | `false` | Set it to true if you would like Google Maps to re-order all the waypoints to optimize the route for the fastest route. Please be aware that if this option is enabled, you will be billed for a higher rate by Google as stated [here](https://developers.google.com/maps/documentation/javascript/directions#Waypoints).
-| `directionsServiceBaseUrl` | `string` | _(Google's)_ | Base URL of the Directions Service (API) you are using. By default the Google Directions API is used (`"https://maps.googleapis.com/maps/api/directions/json"`). Usually you won't need to change this.
-| `region` | `String` | | If you are using strings for **origin** or **destination**, sometimes you will get an incorrect route because Google Maps API needs the region where this places belong to. See [here](https://developers.google.com/maps/documentation/javascript/localization#Region) for more info.
+| Prop                       | Type                   | Default      | Note                                                                                                                                                                                                                                                                                                                                                                         |
+| -------------------------- | ---------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `origin`                   | `LatLng` or `String`   |              | The origin location to start routing from.                                                                                                                                                                                                                                                                                                                                   |
+| `destination`              | `LatLng` or `String`   |              | The destination location to start routing to.                                                                                                                                                                                                                                                                                                                                |
+| `apikey`                   | `String`               |              | Your Google Maps API Key _(request one [here](https://developers.google.com/maps/documentation/directions/get-api-key); if you're using an existing Google Maps API Key make sure you've enabled the Google Maps Directions API for that key using the [Google API Console](https://console.developers.google.com/apis/) by hitting the “Enable APIs and Services“ button)_. |
+| `waypoints`                | [`LatLng` or `String`] |              | Array of waypoints to use between origin and destination.                                                                                                                                                                                                                                                                                                                    |
+| `language`                 | `String`               | `"en"`       | The language to use when calculating directions. See [here](https://developers.google.com/maps/documentation/javascript/localization) for more info.                                                                                                                                                                                                                         |
+| `mode`                     | `String`               | `"DRIVING"`  | Which transportation mode to use when calculating directions. Allowed values are `"DRIVING"`, `"BICYCLING"`, `"WALKING"`, and `"TRANSIT"`. _(See [here](https://developers.google.com/maps/documentation/javascript/examples/directions-travel-modes) for more info)_.                                                                                                       |
+| `resetOnChange`            | `boolean`              | `true`       | Tweak if the rendered `MapView.Polyline` should reset or not when calculating the route between `origin` and `destionation`. Set to `false` if you see the directions line glitching.                                                                                                                                                                                        |
+| `optimizeWaypoints`        | `boolean`              | `false`      | Set it to true if you would like Google Maps to re-order all the waypoints to optimize the route for the fastest route. Please be aware that if this option is enabled, you will be billed for a higher rate by Google as stated [here](https://developers.google.com/maps/documentation/javascript/directions#Waypoints).                                                   |
+| `directionsServiceBaseUrl` | `string`               | _(Google's)_ | Base URL of the Directions Service (API) you are using. By default the Google Directions API is used (`"https://maps.googleapis.com/maps/api/directions/json"`). Usually you won't need to change this.                                                                                                                                                                      |
+| `region`                   | `String`               |              | If you are using strings for **origin** or **destination**, sometimes you will get an incorrect route because Google Maps API needs the region where this places belong to. See [here](https://developers.google.com/maps/documentation/javascript/localization#Region) for more info.                                                                                       |
 
 #### More props
 
@@ -90,7 +113,7 @@ Since the result rendered on screen is a `MapView.Polyline` component, all [`Map
 The values for the `origin` and `destination` props can take several forms. They can either be:
 
 - Coordinates in the form of an object with `latitude` and `longitude` keys
-- Coordinates in the form of a string  with `latitude` and `longitude` values separated by a comma
+- Coordinates in the form of a string with `latitude` and `longitude` values separated by a comma
 - Strings representing an address
 - Strings representing a location
 - Strings containing a Place Id from the Google Maps Place API prefixed with `place_id:`
@@ -111,33 +134,32 @@ Tip: Don't forget to tweak the `language` prop when using localized location nam
 
 ### Events/Callbacks
 
-| Event Name | Returns | Notes
-|---|---|---|
-| `onStart` | `{ origin, destination, waypoints: [] }` | Callback that is called when the routing has started.
-| `onReady` | `{ distance: Number, duration: Number, coordinates: [], fare: Object }` | Callback that is called when the routing has succesfully finished. Note: distance returned in kilometers and duration in minutes.
-| `onError` | `errorMessage` | Callback that is called in case the routing has failed.
+| Event Name | Returns                                                                 | Notes                                                                                                                             |
+| ---------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `onStart`  | `{ origin, destination, waypoints: [] }`                                | Callback that is called when the routing has started.                                                                             |
+| `onReady`  | `{ distance: Number, duration: Number, coordinates: [], fare: Object }` | Callback that is called when the routing has succesfully finished. Note: distance returned in kilometers and duration in minutes. |
+| `onError`  | `errorMessage`                                                          | Callback that is called in case the routing has failed.                                                                           |
 
 ## Extended Example
 
 This example will draw a route between AirBnB's Office and Apple's HQ
 
 ```js
-import React, { Component } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
+import React, { Component } from "react";
+import { Dimensions, StyleSheet } from "react-native";
+import MapView from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.771707;
 const LONGITUDE = -122.4053769;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const GOOGLE_MAPS_APIKEY = '…';
+const GOOGLE_MAPS_APIKEY = "…";
 
 class Example extends Component {
-
   constructor(props) {
     super(props);
 
@@ -146,26 +168,23 @@ class Example extends Component {
       coordinates: [
         {
           latitude: 37.3317876,
-          longitude: -122.0054812,
+          longitude: -122.0054812
         },
         {
           latitude: 37.771707,
-          longitude: -122.4053769,
-        },
-      ],
+          longitude: -122.4053769
+        }
+      ]
     };
 
     this.mapView = null;
   }
 
-  onMapPress = (e) => {
+  onMapPress = e => {
     this.setState({
-      coordinates: [
-        ...this.state.coordinates,
-        e.nativeEvent.coordinate,
-      ],
+      coordinates: [...this.state.coordinates, e.nativeEvent.coordinate]
     });
-  }
+  };
 
   render() {
     return (
@@ -174,41 +193,51 @@ class Example extends Component {
           latitude: LATITUDE,
           longitude: LONGITUDE,
           latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
         }}
         style={StyleSheet.absoluteFill}
-        ref={c => this.mapView = c}
+        ref={c => (this.mapView = c)}
         onPress={this.onMapPress}
       >
-        {this.state.coordinates.map((coordinate, index) =>
+        {this.state.coordinates.map((coordinate, index) => (
           <MapView.Marker key={`coordinate_${index}`} coordinate={coordinate} />
-        )}
-        {(this.state.coordinates.length >= 2) && (
+        ))}
+        {this.state.coordinates.length >= 2 && (
           <MapViewDirections
             origin={this.state.coordinates[0]}
-            waypoints={ (this.state.coordinates.length > 2) ? this.state.coordinates.slice(1, -1): null}
-            destination={this.state.coordinates[this.state.coordinates.length-1]}
+            waypoints={
+              this.state.coordinates.length > 2
+                ? this.state.coordinates.slice(1, -1)
+                : null
+            }
+            destination={
+              this.state.coordinates[this.state.coordinates.length - 1]
+            }
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"
             optimizeWaypoints={true}
-            onStart={(params) => {
-              console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+            onStart={params => {
+              console.log(
+                `Started routing between "${params.origin}" and "${
+                  params.destination
+                }"`
+              );
             }}
             onReady={result => {
-              console.log('Distance: ${result.distance} km')
-              console.log('Duration: ${result.duration} min.')
-              
+              console.log("Distance: ${result.distance} km");
+              console.log("Duration: ${result.duration} min.");
+
               this.mapView.fitToCoordinates(result.coordinates, {
                 edgePadding: {
-                  right: (width / 20),
-                  bottom: (height / 20),
-                  left: (width / 20),
-                  top: (height / 20),
+                  right: width / 20,
+                  bottom: height / 20,
+                  left: width / 20,
+                  top: height / 20
                 }
               });
             }}
-            onError={(errorMessage) => {
+            onError={errorMessage => {
               // console.log('GOT AN ERROR');
             }}
           />
