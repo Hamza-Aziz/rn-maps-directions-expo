@@ -5,7 +5,7 @@ for `react-native-maps`. The original package can be found here: https://github.
 and uses the `Polyline` component from `react-native-maps`.
 
 The modification in _my_ package removes this dependency by adding `Polyline` as a component in this package. You can use
-`MapView` from Expo like along with this package like this:
+`MapView` from Expo along with this package like this:
 
 ```js
 import { MapView } from "expo";
